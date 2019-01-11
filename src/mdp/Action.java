@@ -9,7 +9,8 @@ public enum Action {
 	UP,		// i.e. go to the field above
 	DOWN,	// i.e. go to the field below
 	LEFT,	// i.e. go to the field to the left
-	RIGHT;	// i.e. go to the field to the right
+	RIGHT,	// i.e. go to the field to the right
+	NOTHING;
 	
 	public static Action nextAction(Action in){
 		switch(in){

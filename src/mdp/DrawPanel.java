@@ -64,6 +64,13 @@ public class DrawPanel extends JPanel {
 		}
 		g2.drawString("Reward: \t\t"+mdp.getReward(), 30, screenHeight+25);
 		g2.drawString("#Actions: \t\t"+mdp.getActionsCounter(), 30, screenHeight+40);
+
+		if (Main.RUN_Q){
+			g2.drawString("Learning iteration: \t\t"+mdp.getLearningIterations(), 160, screenHeight+25);
+        g2.drawString("Cumulative reward: \t\t"+mdp.getCumulativeReward(), 160, screenHeight+40);
+		} else {
+			g2.drawString("Iterative value: \t\t"+mdp.getLandscapeValue(), 160, screenHeight+25);
+		}
 	}
 
 }
