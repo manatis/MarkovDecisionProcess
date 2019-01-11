@@ -17,12 +17,12 @@ public class Main {
         MarkovDecisionProblem mdp;
         Random rand = new Random();
         if (CREATE_10_X_10) {
-            mdp = new MarkovDecisionProblem(10,10);
-            if (CREATE_HARD_MAP){
+            mdp = new MarkovDecisionProblem(10, 10);
+            if (CREATE_HARD_MAP) {
                 int random = rand.nextInt(2);
-                switch (random){
+                switch (random) {
                     case 0:
-                        createMyMap(mdp);
+                        createMantasMap(mdp);
                         break;
                     case 1:
                         createDavidsMap(mdp);
@@ -50,11 +50,21 @@ public class Main {
         }
     }
 
+    /**
+     * Start the Q-Leaning algorithm on a given grid world.
+     *
+     * @param mdp the initialised markov decision problem class.
+     */
     private static void runQLearning(MarkovDecisionProblem mdp) {
         QLearning q = new QLearning(mdp);
         q.learn();
     }
 
+    /**
+     * Creates Value Iteration class which pre-calculates an optimal policy and then executes it.
+     *
+     * @param mdp the initialised markov decision problem class.
+     */
     private static void runValueIteration(MarkovDecisionProblem mdp) {
         ValueIteration vi = new ValueIteration(mdp);
         boolean isComplexityPrinted = false;
@@ -63,15 +73,20 @@ public class Main {
                 mdp.performAction(vi.getAction(mdp.getStateXPosition(), mdp.getStateYPostion()));
             } while (!mdp.isTerminated());
             mdp.restart();
-            if (!isComplexityPrinted){
+            if (!isComplexityPrinted) {
                 vi.printComplexity();
                 isComplexityPrinted = true;
             }
         }
     }
 
+    /**
+     * Creates a replica of a map used by Stanford University.
+     *
+     * @param mdp the initialised markov decision problem class.
+     */
     private static void createStanfordMap(MarkovDecisionProblem mdp) {
-        mdp.setInitialState(0,9);
+        mdp.setInitialState(0, 9);
         mdp.setField(3, 2, Field.NEGREWARD);
         mdp.setField(3, 6, Field.NEGREWARD);
         mdp.setField(5, 5, Field.NEGREWARD);
@@ -97,7 +112,12 @@ public class Main {
         mdp.setField(8, 7, Field.OBSTACLE);
     }
 
-    private static void createMyMap(MarkovDecisionProblem mdp) {
+    /**
+     * Creates a map made by Mantas Makelis.
+     *
+     * @param mdp the initialised markov decision problem class.
+     */
+    private static void createMantasMap(MarkovDecisionProblem mdp) {
         mdp.setField(5, 5, Field.REWARD);
 
         mdp.setField(4, 5, Field.NEGREWARD);
@@ -112,11 +132,16 @@ public class Main {
         }
     }
 
-    private static void createDavidsMap(MarkovDecisionProblem mdp){
+    /**
+     * Creates a map made by David Leeftink.
+     *
+     * @param mdp the initialised markov decision problem class.
+     */
+    private static void createDavidsMap(MarkovDecisionProblem mdp) {
         mdp.setField(5, 4, Field.REWARD);
-        mdp.setField(1,0,Field.NEGREWARD);
-        mdp.setField(1,1,Field.NEGREWARD);
-        mdp.setField(2,2,Field.NEGREWARD);
+        mdp.setField(1, 0, Field.NEGREWARD);
+        mdp.setField(1, 1, Field.NEGREWARD);
+        mdp.setField(2, 2, Field.NEGREWARD);
         mdp.setField(3, 3, Field.NEGREWARD);
         mdp.setField(4, 4, Field.NEGREWARD);
         mdp.setField(5, 5, Field.NEGREWARD);

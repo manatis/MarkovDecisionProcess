@@ -65,7 +65,6 @@ public class MarkovDecisionProblem {
     private int learningIterations;
     private double cumulativeReward;
 
-
     /////////////////////////////////////////////////////////
     /// FUNCTIONS
     /////////////////////////////////////////////////////////
@@ -273,8 +272,6 @@ public class MarkovDecisionProblem {
         return 0;
     }
 
-
-
     /////////////////////////////////////////////////////////
     /// SETTERS
     /////////////////////////////////////////////////////////
@@ -449,19 +446,39 @@ public class MarkovDecisionProblem {
         }
     }
 
+    /**
+     * Getter for positive reward.
+     *
+     * @return double of positive reward.
+     */
     public double getPosReward() {
         return posReward;
     }
 
+    /**
+     * Getter for negative reward.
+     *
+     * @return double of negative reward.
+     */
     public double getNegReward() {
         return negReward;
     }
 
+    /**
+     * Getter for no reward.
+     *
+     * @return double of no reward.
+     */
     public double getNoReward() {
         return noReward;
     }
 
-    public double getLandscapeValue(){
+    /**
+     * Getter for the landscape value on which the agent is standing.
+     *
+     * @return double of the value.
+     */
+    public double getLandscapeValue() {
         if (valueLandscape != null) {
             return Math.round(valueLandscape[xPosition][yPosition]);
         } else {
@@ -469,8 +486,22 @@ public class MarkovDecisionProblem {
         }
     }
 
+    /**
+     * Getter for learning iteration number.
+     *
+     * @return integer of learning iterations.
+     */
     public int getLearningIterations() {
         return learningIterations;
+    }
+
+    /**
+     * Getter of cumulative reward.
+     *
+     * @return double of cumulative reward.
+     */
+    public double getCumulativeReward() {
+        return cumulativeReward;
     }
 
     /////////////////////////////////////////////////////////
@@ -532,25 +563,41 @@ public class MarkovDecisionProblem {
         showProgress = show;
     }
 
+    /**
+     * Setter for value landscape.
+     *
+     * @param valueLandscape new two-dimensional array of value landscape.
+     */
     public void setValueLandscape(double[][] valueLandscape) {
         this.valueLandscape = valueLandscape;
     }
 
-    public void setLearningIterations(int learningIterations){
+    /**
+     * Setter for learning iterations.
+     *
+     * @param learningIterations new integer of learning iteration.
+     */
+    public void setLearningIterations(int learningIterations) {
         this.learningIterations = learningIterations;
     }
 
+    /**
+     * Used by Q-Leaning to set the equal probabilities according to the epsilon value.
+     *
+     * @param epsilon the randomness value of Q-Learning algorithm.
+     */
     public void changeProbabilities(double epsilon) {
         this.pPerform = 1 - epsilon;
-        this.pSidestep = epsilon*2/3;
-        this.pBackstep = epsilon/3;
+        this.pSidestep = epsilon * 2 / 3;
+        this.pBackstep = epsilon / 3;
     }
 
+    /**
+     * Setter for cumulative reward of Q-Learning algorithm.
+     *
+     * @param cumulativeReward new double of cumulative reward.
+     */
     public void setCumulativeReward(double cumulativeReward) {
         this.cumulativeReward = cumulativeReward;
-    }
-
-    public double getCumulativeReward() {
-        return cumulativeReward;
     }
 }

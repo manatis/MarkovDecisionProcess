@@ -3,6 +3,8 @@ package mdp;
 import java.util.ArrayList;
 
 /**
+ * A class representing the Value Iteration algorithm.
+ *
  * @author David Leeftink and Mantas Makelis
  */
 public class ValueIteration {
@@ -16,6 +18,13 @@ public class ValueIteration {
     private int iterations;
     private int complexity;
 
+    /**
+     * Constructor and initializer of the value iteration.
+     * Assigns starting values and begins the calculations for each state.
+     * When finished, contains the optimal policy for agent to execute.
+     *
+     * @param mdp the initialised markov decision problem class which contains grid world.
+     */
     public ValueIteration(MarkovDecisionProblem mdp) {
         this.mdp = mdp;
         this.probDistribution = mdp.getProbs();
@@ -28,6 +37,12 @@ public class ValueIteration {
         mdp.setValueLandscape(valueLandscape);
     }
 
+    /**
+     * Begins the algorithm and calculated the values for the whole grid world.
+     * After values have been calculated, optimal policy map is made.
+     *
+     * @return two-dimensional array containing the policy action for each state of the grid world.
+     */
     private Action[][] Calculate() {
         Action[][] policyLandscape = new Action[mdp.getWidth()][mdp.getHeight()];
         for (int k = 0; k < iterations; k++) {
@@ -78,7 +93,7 @@ public class ValueIteration {
                     }
                 }
                 int index = Utilities.getHighestIndex(values);
-                if (moves.length != 0){
+                if (moves.length != 0) {
                     // no policy for obstacles
                     policyLandscape[xpos][ypos] = moves[index];
                 }
@@ -87,6 +102,14 @@ public class ValueIteration {
         return policyLandscape;
     }
 
+    /**
+     * Calculates the best value of the state.
+     * Considers all possible actions in the state and for each find the value.
+     * From all values takes the highest valued action and sets it as the value of the state.
+     *
+     * @param xpos X coordinate of the state in the grid world.
+     * @param ypos Y coordinate of the state in the grid world.
+     */
     private void V(int xpos, int ypos) {
         Action[] moves = getPossibleActions(xpos, ypos);
         double[] values = new double[moves.length];
@@ -96,6 +119,14 @@ public class ValueIteration {
         valueLandscape[xpos][ypos] = Utilities.max(values);
     }
 
+    /**
+     * Takes non-determinism into account and calculates the value of the action in a given state.
+     *
+     * @param xpos X coordinate of the state in the grid world.
+     * @param ypos Y coordinate of the state in the grid world.
+     * @param action The action for which the value needs to be calculated.
+     * @return the value of the action given that it was executed in given state coordinates.
+     */
     private double QValue(int xpos, int ypos, Action action) {
         double expectedValue = 0;
         Action[] actions = new Action[]{action, Action.previousAction(action), Action.nextAction(action), Action.backAction(action),
@@ -145,6 +176,11 @@ public class ValueIteration {
         return reward + (expectedValue * discount);
     }
 
+    /**
+     * Initialises the reward map.
+     *
+     * @return two-dimensional array with preset rewards of the grid world.
+     */
     private double[][] createRewardLandscape() {
         double[][] rewardLandscape = new double[mdp.getWidth()][mdp.getHeight()];
         for (int i = 0; i < mdp.getWidth(); i++) {
@@ -163,6 +199,13 @@ public class ValueIteration {
         return rewardLandscape;
     }
 
+    /**
+     * Find all possible executable actions in the state considering the bounds of the grid world and obstacles.
+     *
+     * @param xpos X coordinate of the state in the grid world.
+     * @param ypos Y coordinate of the state in the grid world.
+     * @return array of possibly executable actions.
+     */
     public Action[] getPossibleActions(int xpos, int ypos) {
         ArrayList<Action> actions = new ArrayList<>();
         if (ypos < (mdp.getHeight() - 1) && mdp.getField(xpos, ypos + 1) != Field.OBSTACLE) {
@@ -180,11 +223,20 @@ public class ValueIteration {
         return actions.toArray(new Action[actions.size()]);
     }
 
+    /**
+     * Gets the action according to the pre-calculated policy.
+     * @param xpos X coordinate of the state in the grid world.
+     * @param ypos Y coordinate of the state in the grid world.
+     * @return the most valuable action in the state.
+     */
     public Action getAction(int xpos, int ypos) {
         return policyLandscape[xpos][ypos];
     }
 
-    public void printComplexity(){
+    /**
+     * Prints the complexity (amount of Q-values calculated) to the console.
+     */
+    public void printComplexity() {
         System.out.println(complexity);
     }
 }
